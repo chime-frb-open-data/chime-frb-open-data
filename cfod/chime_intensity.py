@@ -6,7 +6,6 @@ import assemble_chunk
 
 # CHIME/FRB Constants
 
-#from frb_common import common_utils as cu
 # ADC sampling frequency, in MSPS or Hz
 adc_sampling_freq = float(800e6)
 # number of samples in the initial FFT
@@ -22,13 +21,11 @@ fpga_delta_freq_mhz = -adc_sampling_freq / 2 / fpga_num_freq / 1e6
 freq_top_mhz = fpga_freq0_mhz - fpga_delta_freq_mhz / 2.
 # bottom of the lowest-frequency channel
 freq_bottom_mhz = freq_top_mhz - adc_sampling_freq / 2. / 1e6
-
 # bin centres of FPGA channels, in MHz (ordered 800 to 400 MHz)
 fpga_freq = np.linspace(fpga_freq0_mhz, fpga_freq0_mhz/2., fpga_num_freq,
                         endpoint=False)
 
-## X-engine (GPUs/L0)
-
+# X-engine (GPUs/L0)
 # upchannelization
 l0_upchan_factor = 16
 l0_num_frames_sample = 8 * 3
@@ -180,7 +177,7 @@ def unpack_datafiles(fns, downsample=True):
                     fbottom,
                     df,
                     0,
-                    binning * chimefrb.dt,
+                    binning * dt,
                     weights=weight,
                 )
                 intensity_spec.downsample(factor=ds_binning / binning)
