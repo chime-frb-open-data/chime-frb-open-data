@@ -10,7 +10,7 @@ Note: Currently only `Python 2.7` is supported.
 
 ## Usage
 To read a single data file from the data release,
-```
+```python
 from cfod import chime_intensity as ci
 fn = `astro_5941664_20180406203904337770_beam0147_00245439_02.msgpack`
 intensity, weights, fpga0, fpgaN, binning, frame0_nano, nrfifreq, rfi_mask = ci.unpack_data(fn)
@@ -26,7 +26,7 @@ where:
   - `rfi_mask` is currently not supported
 
 To read multiple data files at once, you can use the following command,
-```
+```python
 from cfod import chime_intensity as ci
 fns = ['file1', 'file2', 'file3']
 intensity, weights, fpga0s, fpgaNs, binning, rfi_mask, frame0_nanos = ci.unpack_datafiles(fns)
