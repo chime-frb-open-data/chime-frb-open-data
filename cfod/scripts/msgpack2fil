@@ -1,3 +1,5 @@
+#!/bin/python
+
 """Script to convert a list of CHIME/FRB msgpack files to a filterbank file.
 
 Ziggy Pleunis, ziggy.pleunis@physics.mcgill.ca
@@ -9,9 +11,9 @@ import glob
 import os
 import numpy as np
 
-import chime_intensity
-import filterbank
-import sigproc
+from cfod import chime_intensity
+from cfod import filterbank
+from cfod import sigproc
 
 
 # 16K channels, 1024 samples, intensity + weights, 32-bits = 4 bytes
@@ -129,7 +131,7 @@ def delay_from_dm(dm, freq_emitted):
         Dispersive delay, in seconds.
 
     """
-    if type(freq_emitted) == type(0.0):
+    if isinstance(freq_emitted, float):
         if freq_emitted > 0.0:
             return dm / (0.000241 * freq_emitted * freq_emitted)
         else:
@@ -171,8 +173,10 @@ def convert_chunk(msg_chunk, fscrunch=1, subdm=None):
         )
         old_center_frequencies = old_frequencies + chime_intensity.df / 2.
 
+        nchan_per_sub = nchan / nsub
+
         # update frequency channel width
-        df = nchan / nsub * chime_intensity.df
+        df = nchan_per_sub * chime_intensity.df
 
         # calculate subband frequencies for subband dedispersion
         new_frequencies = np.arange(
@@ -250,6 +254,10 @@ def msgpack2fil(fout, obsglob, fscrunch, subdm, source, ram):
 
     msg = glob.glob(obsglob)
     msg.sort(key=chime_intensity.natural_keys)
+    
+    if len(msg) == 0:
+        print("No files found for wildcard '{}'..".format(obsglob))
+        return
 
     # indices of chunk number is different for `.msg` and `.msgpack` files
     _, extension = os.path.splitext(msg[0])

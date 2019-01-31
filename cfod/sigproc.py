@@ -67,5 +67,3 @@ def addto_hdr(parameter, value):
         return prep_string(parameter)
     else:
         print("WARNING key '{}' is unknown!".format(parameter))
-
-    return header

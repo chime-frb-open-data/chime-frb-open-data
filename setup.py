@@ -33,6 +33,7 @@ setup(
     ],
     keywords="CHIME/FRB intensity astronomy",
     packages=find_packages(exclude=["numpy", "msgpack-python"]),
+    scripts=['cfod/scripts/msgpack2fil'],
     install_requires=["numpy", "msgpack-python"],
     extras_require={},
     package_data={},

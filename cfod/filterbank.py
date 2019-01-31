@@ -7,7 +7,6 @@ Ziggy Pleunis, ziggy.pleunis@physics.mcgill.ca
 """
 
 import numpy as np
-import os
 import sigproc
 
 
