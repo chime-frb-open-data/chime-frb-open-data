@@ -1,3 +1,5 @@
+#!/bin/python
+
 """Script to convert a list of CHIME/FRB msgpack files to a filterbank file.
 
 Ziggy Pleunis, ziggy.pleunis@physics.mcgill.ca
@@ -9,9 +11,9 @@ import glob
 import os
 import numpy as np
 
-import chime_intensity
-import filterbank
-import sigproc
+from cfod import chime_intensity
+from cfod import filterbank
+from cfod import sigproc
 
 
 # 16K channels, 1024 samples, intensity + weights, 32-bits = 4 bytes
@@ -252,6 +254,10 @@ def msgpack2fil(fout, obsglob, fscrunch, subdm, source, ram):
 
     msg = glob.glob(obsglob)
     msg.sort(key=chime_intensity.natural_keys)
+    
+    if len(msg) == 0:
+        print("No files found for wildcard '{}'..".format(obsglob))
+        return
 
     # indices of chunk number is different for `.msg` and `.msgpack` files
     _, extension = os.path.splitext(msg[0])
