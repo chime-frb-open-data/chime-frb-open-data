@@ -129,7 +129,7 @@ def delay_from_dm(dm, freq_emitted):
         Dispersive delay, in seconds.
 
     """
-    if type(freq_emitted) == type(0.0):
+    if isinstance(freq_emitted, float):
         if freq_emitted > 0.0:
             return dm / (0.000241 * freq_emitted * freq_emitted)
         else:
@@ -171,8 +171,10 @@ def convert_chunk(msg_chunk, fscrunch=1, subdm=None):
         )
         old_center_frequencies = old_frequencies + chime_intensity.df / 2.
 
+        nchan_per_sub = nchan / nsub
+
         # update frequency channel width
-        df = nchan / nsub * chime_intensity.df
+        df = nchan_per_sub * chime_intensity.df
 
         # calculate subband frequencies for subband dedispersion
         new_frequencies = np.arange(
