@@ -8,12 +8,12 @@ Ziggy Pleunis, ziggy.pleunis@physics.mcgill.ca
 
 import numpy as np
 import os
-
 import sigproc
 
 
-def create_filterbank_file(outfile, header, spectra=None, nbits=32,
-                           verbose=False):
+def create_filterbank_file(
+    outfile, header, spectra=None, nbits=32, verbose=False
+):
     """Write filterbank header and spectra to file.
 
     Parameters
@@ -35,7 +35,7 @@ def create_filterbank_file(outfile, header, spectra=None, nbits=32,
 
     """
     dtype = get_dtype(nbits)
-    header['nbits'] = nbits
+    header["nbits"] = nbits
 
     if is_float(nbits):
         tinfo = np.finfo(dtype)
@@ -51,7 +51,7 @@ def create_filterbank_file(outfile, header, spectra=None, nbits=32,
             # only add recognized parameters
             continue
         if verbose:
-            print "Writing header parameter '{}'".format(parameter)
+            print("Writing header parameter '{}'".format(parameter))
         value = header[parameter]
         outfile.write(sigproc.addto_hdr(parameter, value))
 
@@ -99,7 +99,7 @@ def append_spectra(outfile, spectra, nbits=32, verbose=False):
     # first channel in filterbank should be highest frequency so flip band
     fil_data = np.fliplr(data).ravel()
     np.clip(fil_data, dtype_min, dtype_max, out=fil_data)
-    #outfile.seek(0, os.SEEK_END)
+    # outfile.seek(0, os.SEEK_END)
     outfile.write(fil_data.astype(dtype))
 
 
@@ -144,9 +144,11 @@ def check_nbits(nbits):
 
     """
     if nbits not in [32, 16, 8]:
-        raise ValueError("`filterbank.py` only supports files with 8- or " \
-                         "16-bit integers, or 32-bit floats " \
-                         "(nbits provided: {})!".format(nbits))
+        raise ValueError(
+            "`filterbank.py` only supports files with 8- or "
+            "16-bit integers, or 32-bit floats "
+            "(nbits provided: {})!".format(nbits)
+        )
 
 
 def get_dtype(nbits):

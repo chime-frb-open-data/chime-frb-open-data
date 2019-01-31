@@ -94,6 +94,7 @@ class AssembledChunk(object):
             print("Scales shape:", self.scales.shape)
             print("nupfreq:", self.nupfreq)
             print("nt_per_packet:", self.nt_per_packet)
+            print("nf: ", nf)
 
         intensities = (
             self.offsets.repeat(self.nupfreq, axis=0).repeat(

@@ -16,7 +16,23 @@ import sigproc
 
 # 16K channels, 1024 samples, intensity + weights, 32-bits = 4 bytes
 MSGPACK_SIZE = 16e3 * 1024 * 2 * 4
-SCRUNCH_FACTORS = [1,2,4,8,16,32,64,128,256,512,1024,2048,4096,8192,16384]
+SCRUNCH_FACTORS = [
+    1,
+    2,
+    4,
+    8,
+    16,
+    32,
+    64,
+    128,
+    256,
+    512,
+    1024,
+    2048,
+    4096,
+    8192,
+    16384,
+]
 
 
 def filterbank_header(obsglob, dt, ftop, fbottom, nchan, source):
@@ -89,8 +105,9 @@ def average(a, axis=None, weights=None):
 
     non_zero = np.where(weight_sums > 0)
     avg = np.zeros_like(weight_sums)
-    avg[non_zero] = np.sum(a * weights, axis=axis)[non_zero] / \
-        weight_sums[non_zero]
+    avg[non_zero] = (
+        np.sum(a * weights, axis=axis)[non_zero] / weight_sums[non_zero]
+    )
 
     return avg, weight_sums
 
@@ -112,47 +129,55 @@ def delay_from_dm(dm, freq_emitted):
         Dispersive delay, in seconds.
 
     """
-    if (type(freq_emitted) == type(0.0)):
-        if (freq_emitted > 0.0):
+    if type(freq_emitted) == type(0.0):
+        if freq_emitted > 0.0:
             return dm / (0.000241 * freq_emitted * freq_emitted)
         else:
             return 0.0
     else:
-        return np.where(freq_emitted > 0.0,
-                        dm / (0.000241 * freq_emitted * freq_emitted), 0.0)
+        return np.where(
+            freq_emitted > 0.0,
+            dm / (0.000241 * freq_emitted * freq_emitted),
+            0.0,
+        )
 
 
 def convert_chunk(msg_chunk, fscrunch=1, subdm=None):
     # load a list of msgpack files
-    intensity, weights, fpga0s, fpgaNs, binning, rfi_masks, frame0_nanos = \
-        chime_intensity.unpack_datafiles(msg_chunk)
+    intensity, weights, fpga0s, fpgaNs, binning, rfi_masks, frame0_nanos = chime_intensity.unpack_datafiles(
+        msg_chunk
+    )
 
     dt = chime_intensity.dt * binning
 
     if fscrunch not in SCRUNCH_FACTORS:
         fscrunch = 4
-        print "WARNING fscrunch is not a factor of 2.. setting it to 4!"
+        print("WARNING fscrunch is not a factor of 2.. setting it to 4!")
 
     nsub = 16384 / fscrunch
     # give warning when nchan > 4096
     if nsub > 4096:
-        print "WARNING sigproc spectrum lengths are capped at 4096 " + \
-              "channels by default, need to update `reader.h` and " + \
-              "`header.h` and recompile before reading this file!"
+        print(
+            "WARNING sigproc spectrum lengths are capped at 4096 "
+            + "channels by default, need to update `reader.h` and "
+            + "`header.h` and recompile before reading this file!"
+        )
 
     nchan = intensity.shape[0]
 
     if nchan != nsub:
-        old_frequencies = np.arange(chime_intensity.fbottom,
-            chime_intensity.ftop, chime_intensity.df)
+        old_frequencies = np.arange(
+            chime_intensity.fbottom, chime_intensity.ftop, chime_intensity.df
+        )
         old_center_frequencies = old_frequencies + chime_intensity.df / 2.
 
         # update frequency channel width
         df = nchan / nsub * chime_intensity.df
 
         # calculate subband frequencies for subband dedispersion
-        new_frequencies = np.arange(chime_intensity.fbottom,
-            chime_intensity.ftop, df)
+        new_frequencies = np.arange(
+            chime_intensity.fbottom, chime_intensity.ftop, df
+        )
         new_center_frequencies = new_frequencies + df / 2.
 
         # dedisperse channels *within* subbands to `subdm`
@@ -162,28 +187,35 @@ def convert_chunk(msg_chunk, fscrunch=1, subdm=None):
             delays = delay_from_dm(subdm, old_center_frequencies)
             # relative delays
             rel_delays = delays - rel_delays.repeat(nchan_per_sub)
-            rel_bindelays = np.round(rel_delays / dt).astype('int')
+            rel_bindelays = np.round(rel_delays / dt).astype("int")
             # shift channels
             for ii in range(nchan):
                 # rotate channels
-                intensity[ii,:] = np.roll(intensity[ii,:], -rel_bindelays[ii],
-                                          axis=0)
-                weights[ii,:] = np.roll(weights[ii,:], -rel_bindelays[ii],
-                                        axis=0)
+                intensity[ii, :] = np.roll(
+                    intensity[ii, :], -rel_bindelays[ii], axis=0
+                )
+                weights[ii, :] = np.roll(
+                    weights[ii, :], -rel_bindelays[ii], axis=0
+                )
 
                 # zero out rotated values in the weights array
                 if rel_bindelays[ii] > 0:
-                    weights[ii,-rel_bindelays[ii]:] = 0.
+                    weights[ii, -rel_bindelays[ii] :] = 0.
                 elif rel_bindelays[ii] < 0:
-                    weights[ii,:-rel_bindelays[ii]] = 0.
+                    weights[ii, : -rel_bindelays[ii]] = 0.
 
         # subband
-        intensity = np.array([average(sub, axis=0, weights=sub_weights)[0] \
-                              for sub, sub_weights in \
-                              zip(np.vsplit(intensity, nsub),
-                                  np.vsplit(weights, nsub))])
-        weights = np.array([np.mean(weights, axis=0) \
-                            for weights in np.vsplit(weights, nsub)])
+        intensity = np.array(
+            [
+                average(sub, axis=0, weights=sub_weights)[0]
+                for sub, sub_weights in zip(
+                    np.vsplit(intensity, nsub), np.vsplit(weights, nsub)
+                )
+            ]
+        )
+        weights = np.array(
+            [np.mean(weights, axis=0) for weights in np.vsplit(weights, nsub)]
+        )
 
     return intensity, weights, dt, df
 
@@ -213,18 +245,18 @@ def msgpack2fil(fout, obsglob, fscrunch, subdm, source, ram):
 
     """
     # add extension to filename if it is not already there
-    if fout[-4:] != '.fil':
-        fout += '.fil'
+    if fout[-4:] != ".fil":
+        fout += ".fil"
 
     msg = glob.glob(obsglob)
     msg.sort(key=chime_intensity.natural_keys)
 
     # indices of chunk number is different for `.msg` and `.msgpack` files
     _, extension = os.path.splitext(msg[0])
-    if extension == '.msg':
+    if extension == ".msg":
         chidx1 = -12
         chidx2 = -4
-    if extension == '.msgpack':
+    if extension == ".msgpack":
         chidx1 = -19
         chidx2 = -11
 
@@ -237,42 +269,75 @@ def msgpack2fil(fout, obsglob, fscrunch, subdm, source, ram):
     reads = len(limits) - 1
 
     for i in range(reads):
-        print "Reading {} of {} msgpack chunks..".format(i+1, reads)
+        print("Reading {} of {} msgpack chunks..".format(i + 1, reads))
 
-        msg_chunk = msg[limits[i]:limits[i+1]]
+        msg_chunk = msg[limits[i] : limits[i + 1]]
 
-        intensity, weights, dt, df = convert_chunk(msg_chunk,
-            fscrunch=fscrunch, subdm=subdm)
+        intensity, weights, dt, df = convert_chunk(
+            msg_chunk, fscrunch=fscrunch, subdm=subdm
+        )
 
         if i > 0:
-            print "Appending to filterbank file '{}'..".format(fout)
+            print("Appending to filterbank file '{}'..".format(fout))
             filterbank.append_spectra(outfile, intensity * weights)
         else:
-            print "Creating filterbank file '{}'..".format(fout)
-            outfile = open(fout, 'wb')
-            fil_header = filterbank_header(obsglob, dt,
-                chime_intensity.ftop, chime_intensity.fbottom,
-                intensity.shape[0], source)
-            filterbank.create_filterbank_file(outfile, fil_header,
-                intensity * weights)
+            print("Creating filterbank file '{}'..".format(fout))
+            outfile = open(fout, "wb")
+            fil_header = filterbank_header(
+                obsglob,
+                dt,
+                chime_intensity.ftop,
+                chime_intensity.fbottom,
+                intensity.shape[0],
+                source,
+            )
+            filterbank.create_filterbank_file(
+                outfile, fil_header, intensity * weights
+            )
 
     outfile.close()
     return
 
 
 @click.command()
-@click.option('-o', '--outfile', 'fout', default='chimefrb.fil',
-              type=click.STRING, help='Filterbank file name.')
-@click.option('--obsglob', default='./*.msgpack', type=click.STRING,
-              help='Glob for the observation msgpack files in quotes.')
-@click.option('--fscrunch', default=4, type=click.INT,
-              help='Frequency scrunch factor, needs to be a power of 2.')
-@click.option('--subdm', default=None, type=click.FLOAT,
-              help='Before subbanding dedisperse subband channels to this DM.')
-@click.option('--source', default='CHIME/FRB candidate', type=click.STRING,
-              help='Name of the source that is in the observation.')
-@click.option('--ram', default=8e9, type=click.FLOAT,
-              help='RAM available, in bytes. 8GB by default.')
+@click.option(
+    "-o",
+    "--outfile",
+    "fout",
+    default="chimefrb.fil",
+    type=click.STRING,
+    help="Filterbank file name.",
+)
+@click.option(
+    "--obsglob",
+    default="./*.msgpack",
+    type=click.STRING,
+    help="Glob for the observation msgpack files in quotes.",
+)
+@click.option(
+    "--fscrunch",
+    default=4,
+    type=click.INT,
+    help="Frequency scrunch factor, needs to be a power of 2.",
+)
+@click.option(
+    "--subdm",
+    default=None,
+    type=click.FLOAT,
+    help="Before subbanding dedisperse subband channels to this DM.",
+)
+@click.option(
+    "--source",
+    default="CHIME/FRB candidate",
+    type=click.STRING,
+    help="Name of the source that is in the observation.",
+)
+@click.option(
+    "--ram",
+    default=8e9,
+    type=click.FLOAT,
+    help="RAM available, in bytes. 8GB by default.",
+)
 def msgpack2fil_command(fout, obsglob, fscrunch, subdm, source, ram):
     msgpack2fil(fout, obsglob, fscrunch, subdm, source, ram)
 

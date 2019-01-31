@@ -22,8 +22,9 @@ freq_top_mhz = fpga_freq0_mhz - fpga_delta_freq_mhz / 2.
 # bottom of the lowest-frequency channel
 freq_bottom_mhz = freq_top_mhz - adc_sampling_freq / 2. / 1e6
 # bin centres of FPGA channels, in MHz (ordered 800 to 400 MHz)
-fpga_freq = np.linspace(fpga_freq0_mhz, fpga_freq0_mhz/2., fpga_num_freq,
-                        endpoint=False)
+fpga_freq = np.linspace(
+    fpga_freq0_mhz, fpga_freq0_mhz / 2., fpga_num_freq, endpoint=False
+)
 
 # X-engine (GPUs/L0)
 # upchannelization
@@ -33,13 +34,17 @@ l0_num_frames_sample = 8 * 3
 num_channels = fpga_num_freq * l0_upchan_factor
 channel_bandwidth_mhz = adc_sampling_freq / 2 / num_channels / 1e6
 fpga_frequency_hz = adc_sampling_freq / fpga_num_samp_fft
-sampling_time_ms = (1. / fpga_frequency_hz * l0_upchan_factor
-                    * l0_num_frames_sample) * 1e3
+sampling_time_ms = (
+    1. / fpga_frequency_hz * l0_upchan_factor * l0_num_frames_sample
+) * 1e3
 fpga_counts_per_sample = int(sampling_time_ms / 1e3 / (1. / fpga_frequency_hz))
 
 # bin centres of L0 channels, in MHz (ordered 400 to 800 MHz)
-freq = np.arange(freq_bottom_mhz + channel_bandwidth_mhz/2., freq_top_mhz,
-                 channel_bandwidth_mhz)
+freq = np.arange(
+    freq_bottom_mhz + channel_bandwidth_mhz / 2.,
+    freq_top_mhz,
+    channel_bandwidth_mhz,
+)
 bandwidth = adc_sampling_freq / 1e6 / 2.  # MHz
 fbottom = freq_bottom_mhz  # MHz
 ftop = freq_top_mhz  # MHz
@@ -164,6 +169,7 @@ def unpack_datafiles(fns, downsample=True):
         # Downsample
         if downsample:
             from iautils import spectra
+
             print("downsampling")
             current_idx = 0
             ds_binning = max(bin_list)
@@ -173,12 +179,7 @@ def unpack_datafiles(fns, downsample=True):
                 weight = weights[i]
                 print(ds_binning / binning)
                 intensity_spec = spectra.Spectra(
-                    intensity,
-                    fbottom,
-                    df,
-                    0,
-                    binning * dt,
-                    weights=weight,
+                    intensity, fbottom, df, 0, binning * dt, weights=weight
                 )
                 intensity_spec.downsample(factor=ds_binning / binning)
                 intensities[i] = intensity_spec.intensity
@@ -210,17 +211,17 @@ def unpack_datafiles(fns, downsample=True):
                 intensity = intensities[i].repeat(binning / output_bin, axis=1)
                 chunk_samples = intensity.shape[1]
                 output_intensities[
-                    :, current_idx: current_idx + chunk_samples
+                    :, current_idx : current_idx + chunk_samples
                 ] = intensity
 
                 weight = weights[i].repeat(binning / output_bin, axis=1)
                 output_weights[
-                    :, current_idx: current_idx + chunk_samples
+                    :, current_idx : current_idx + chunk_samples
                 ] = weight
                 current_idx += chunk_samples
                 rfi_mask = rfi_masks[i].repeat(binning / output_bin, axis=1)
                 output_rfi_masks[
-                    :, current_idx: current_idx + chunk_samples
+                    :, current_idx : current_idx + chunk_samples
                 ] = rfi_mask
                 current_idx += chunk_samples
         print("all is well")
@@ -242,5 +243,6 @@ def atoi(text):
 
 def natural_keys(text):
     import re
+
     """alist.sort(key=natural_keys) sorts in human order"""
-    return [atoi(c) for c in re.split('(\d+)', text)]
+    return [atoi(c) for c in re.split("(\d+)", text)]
