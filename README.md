@@ -32,7 +32,7 @@ fns = ['file1', 'file2', 'file3']
 intensity, weights, fpga0s, fpgaNs, binning, rfi_mask, frame0_nanos = ci.unpack_datafiles(fns)
 ```
 
-To convert `.msgpack` files into filterbank `.fil` format you can run `msgpack2fil` from the command line. You need to provide a pathname wildcard in quotation marks. To see all command line options run help:  
+To convert `.msgpack` files into filterbank `.fil` format you can run `msgpack2fil` from the command line (scripts are installed through `pip`). You need to provide a pathname wildcard in quotation marks. To see all command line options run help:  
 ```
 msgpack2fil --help
 ```
