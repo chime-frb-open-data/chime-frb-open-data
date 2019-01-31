@@ -33,7 +33,7 @@ intensity, weights, fpga0s, fpgaNs, binning, rfi_mask, frame0_nanos = ci.unpack_
 ```
 
 To convert `.msgpack` files into filterbank `.fil` format you can run `msgpack2fil.py` from the command line. You need to provide a pathname wildcard in quotation marks. To see all command line options run help:  
-```python
+```
 python msgpack2fil.py --help
 python msgpack2fil.py --obsglob "./*.msgpack"
 ```
