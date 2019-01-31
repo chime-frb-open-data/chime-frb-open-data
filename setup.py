@@ -16,7 +16,7 @@ with open(path.join(here, "README.md"), encoding="utf-8") as f:
 setup(
     # CHIME/FRB Open Data
     name="cfod",
-    version="2019.01.post1",
+    version="2019.02",
     description="Python project to read CHIME/FRB Data",
     long_description=long_description,
     long_description_content_type="text/markdown",
@@ -31,7 +31,7 @@ setup(
         "License :: OSI Approved :: MIT License",
         "Programming Language :: Python :: 2.7",
     ],
-    keywords="CHIME/FRB intensity astronomy",
+    keywords="CHIME frb intensity astronomy",
     packages=find_packages(exclude=["numpy", "msgpack-python"]),
     scripts=['cfod/scripts/msgpack2fil'],
     install_requires=["numpy", "msgpack-python"],
