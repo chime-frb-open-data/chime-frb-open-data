@@ -233,3 +233,14 @@ def unpack_datafiles(fns, downsample=True):
             output_rfi_masks,
             frame0_nanos,
         )
+
+
+# sort files in natural order
+def atoi(text):
+    return int(text) if text.isdigit() else text
+
+
+def natural_keys(text):
+    import re
+    """alist.sort(key=natural_keys) sorts in human order"""
+    return [atoi(c) for c in re.split('(\d+)', text)]

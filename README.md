@@ -32,10 +32,14 @@ fns = ['file1', 'file2', 'file3']
 intensity, weights, fpga0s, fpgaNs, binning, rfi_mask, frame0_nanos = ci.unpack_datafiles(fns)
 ```
 
+To convert `.msgpack` files into filterbank `.fil` format you can run `msgpack2fil.py` from the command line. You need to provide a pathname wildcard in quotation marks. To see all command line options run help:  
+```python
+python msgpack2fil.py --help
+python msgpack2fil.py --obsglob "./*.msgpack"
+```
+CHIME/FRB data has 16384 frequency channels but PRESTO and sigproc by default allocate memory for only a maximum of 4096 channels. You would need to update `reader.h` and `header.h` in sigproc and recompile before trying to read a 16384 filterbank file, or you can let `msgpack2fi.py` subband data by at least a factor 4 (using the `--fscrunch` argument). Make sure to provide a DM for subband dedispersion (using the `--subdm` argument) to mitigate subband smearing.
+
 ## Removal
 ```
 pip uninstall cfod
 ```
-  
-
-
