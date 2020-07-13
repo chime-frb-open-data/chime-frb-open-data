@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 import numpy as np
-import assemble_chunk
+from cfod import assemble_chunk
 
 # CHIME/FRB Constants
 
@@ -23,7 +23,7 @@ freq_top_mhz = fpga_freq0_mhz - fpga_delta_freq_mhz / 2.
 freq_bottom_mhz = freq_top_mhz - adc_sampling_freq / 2. / 1e6
 # bin centres of FPGA channels, in MHz (ordered 800 to 400 MHz)
 fpga_freq = np.linspace(
-    fpga_freq0_mhz, fpga_freq0_mhz / 2., fpga_num_freq, endpoint=False
+    fpga_freq0_mhz, fpga_freq0_mhz / 2., num=round(fpga_num_freq), endpoint=False
 )
 
 # X-engine (GPUs/L0)
