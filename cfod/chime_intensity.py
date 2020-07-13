@@ -1,6 +1,6 @@
 """Functions to handle CHIME/FRB intensity data."""
 
-from __future__ import print_function
+
 import numpy as np
 from cfod import assemble_chunk
 
@@ -18,12 +18,12 @@ fpga_freq0_mhz = adc_sampling_freq / 1e6
 fpga_delta_freq_mhz = -adc_sampling_freq / 2 / fpga_num_freq / 1e6
 # top of the highest-frequency channel
 # (NB the FGPA-channel around 800 MHz is contaminated by aliasing)
-freq_top_mhz = fpga_freq0_mhz - fpga_delta_freq_mhz / 2.
+freq_top_mhz = fpga_freq0_mhz - fpga_delta_freq_mhz / 2.0
 # bottom of the lowest-frequency channel
-freq_bottom_mhz = freq_top_mhz - adc_sampling_freq / 2. / 1e6
+freq_bottom_mhz = freq_top_mhz - adc_sampling_freq / 2.0 / 1e6
 # bin centres of FPGA channels, in MHz (ordered 800 to 400 MHz)
 fpga_freq = np.linspace(
-    fpga_freq0_mhz, fpga_freq0_mhz / 2., num=round(fpga_num_freq), endpoint=False
+    fpga_freq0_mhz, fpga_freq0_mhz / 2.0, num=round(fpga_num_freq), endpoint=False
 )
 
 # X-engine (GPUs/L0)
@@ -35,17 +35,15 @@ num_channels = fpga_num_freq * l0_upchan_factor
 channel_bandwidth_mhz = adc_sampling_freq / 2 / num_channels / 1e6
 fpga_frequency_hz = adc_sampling_freq / fpga_num_samp_fft
 sampling_time_ms = (
-    1. / fpga_frequency_hz * l0_upchan_factor * l0_num_frames_sample
+    1.0 / fpga_frequency_hz * l0_upchan_factor * l0_num_frames_sample
 ) * 1e3
-fpga_counts_per_sample = int(sampling_time_ms / 1e3 / (1. / fpga_frequency_hz))
+fpga_counts_per_sample = int(sampling_time_ms / 1e3 / (1.0 / fpga_frequency_hz))
 
 # bin centres of L0 channels, in MHz (ordered 400 to 800 MHz)
 freq = np.arange(
-    freq_bottom_mhz + channel_bandwidth_mhz / 2.,
-    freq_top_mhz,
-    channel_bandwidth_mhz,
+    freq_bottom_mhz + channel_bandwidth_mhz / 2.0, freq_top_mhz, channel_bandwidth_mhz
 )
-bandwidth = adc_sampling_freq / 1e6 / 2.  # MHz
+bandwidth = adc_sampling_freq / 1e6 / 2.0  # MHz
 fbottom = freq_bottom_mhz  # MHz
 ftop = freq_top_mhz  # MHz
 df = channel_bandwidth_mhz  # MHz
@@ -199,9 +197,7 @@ def unpack_datafiles(fns, downsample=True):
                 ]
             )
 
-            output_intensities = np.empty(
-                [intensities[0].shape[0], total_samples]
-            )
+            output_intensities = np.empty([intensities[0].shape[0], total_samples])
             output_weights = np.empty_like(output_intensities)
             output_rfi_masks = np.empty_like(output_intensities)
             current_idx = 0
@@ -215,9 +211,7 @@ def unpack_datafiles(fns, downsample=True):
                 ] = intensity
 
                 weight = weights[i].repeat(binning / output_bin, axis=1)
-                output_weights[
-                    :, current_idx : current_idx + chunk_samples
-                ] = weight
+                output_weights[:, current_idx : current_idx + chunk_samples] = weight
                 current_idx += chunk_samples
                 rfi_mask = rfi_masks[i].repeat(binning / output_bin, axis=1)
                 output_rfi_masks[

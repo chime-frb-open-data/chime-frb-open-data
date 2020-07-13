@@ -1,4 +1,3 @@
-from __future__ import print_function
 import msgpack
 import numpy as np
 
@@ -74,7 +73,7 @@ class AssembledChunk(object):
             masked = np.sum(self.rfi_mask == 0)
             rfistr = "yes, %i freqs, %i%% masked" % (
                 self.nrfifreq,
-                int(100. * masked / (h * w)),
+                int(100.0 * masked / (h * w)),
             )
         else:
             rfistr = "no"
@@ -97,9 +96,7 @@ class AssembledChunk(object):
             print("nf: ", nf)
 
         intensities = (
-            self.offsets.repeat(self.nupfreq, axis=0).repeat(
-                self.nt_per_packet, axis=1
-            )
+            self.offsets.repeat(self.nupfreq, axis=0).repeat(self.nt_per_packet, axis=1)
             + self.data
             * self.scales.repeat(self.nupfreq, axis=0).repeat(
                 self.nt_per_packet, axis=1
@@ -114,8 +111,7 @@ class AssembledChunk(object):
         # Nanoseconds per FPGA count
         fpga_nano = 2560
         return 1e-9 * (
-            self.frame0_nano
-            + self.fpga_counts_per_sample * fpga_nano * self.fpga0
+            self.frame0_nano + self.fpga_counts_per_sample * fpga_nano * self.fpga0
         )
 
     def time_end(self):
@@ -123,9 +119,7 @@ class AssembledChunk(object):
         fpga_nano = 2560
         return 1e-9 * (
             self.frame0_nano
-            + self.fpga_counts_per_sample
-            * fpga_nano
-            * (self.fpga0 + self.fpgaN)
+            + self.fpga_counts_per_sample * fpga_nano * (self.fpga0 + self.fpgaN)
         )
 
 

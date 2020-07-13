@@ -7,12 +7,10 @@ Ziggy Pleunis, ziggy.pleunis@physics.mcgill.ca
 """
 
 import numpy as np
-import sigproc
+from . import sigproc
 
 
-def create_filterbank_file(
-    outfile, header, spectra=None, nbits=32, verbose=False
-):
+def create_filterbank_file(outfile, header, spectra=None, nbits=32, verbose=False):
     """Write filterbank header and spectra to file.
 
     Parameters
@@ -45,12 +43,12 @@ def create_filterbank_file(
 
     outfile.write(sigproc.addto_hdr("HEADER_START", None))
 
-    for parameter in header.keys():
+    for parameter in list(header.keys()):
         if parameter not in sigproc.header_params:
             # only add recognized parameters
             continue
         if verbose:
-            print("Writing header parameter '{}'".format(parameter))
+            print(("Writing header parameter '{}'".format(parameter)))
         value = header[parameter]
         outfile.write(sigproc.addto_hdr(parameter, value))
 
