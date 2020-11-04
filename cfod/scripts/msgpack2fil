@@ -167,16 +167,16 @@ def convert_chunk(msg_chunk, fscrunch=1, subdm=None):
 
     nchan = intensity.shape[0]
 
+    nchan_per_sub = nchan / nsub
+
+    # update frequency channel width
+    df = nchan_per_sub * chime_intensity.df
+    
     if nchan != nsub:
         old_frequencies = np.arange(
             chime_intensity.fbottom, chime_intensity.ftop, chime_intensity.df
         )
         old_center_frequencies = old_frequencies + chime_intensity.df / 2.
-
-        nchan_per_sub = nchan / nsub
-
-        # update frequency channel width
-        df = nchan_per_sub * chime_intensity.df
 
         # calculate subband frequencies for subband dedispersion
         new_frequencies = np.arange(
