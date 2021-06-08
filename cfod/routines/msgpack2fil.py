@@ -11,9 +11,9 @@ import glob
 import os
 import numpy as np
 
-from cfod.intensity import chime_intensity
-from cfod.filterbank import filterbank
-from cfod.filterbank import sigproc
+from cfod.analysis.intensity import chime_intensity
+from cfod.analysis.filterbank import filterbank
+from cfod.analysis.filterbank import sigproc
 
 
 # 16K channels, 1024 samples, intensity + weights, 32-bits = 4 bytes

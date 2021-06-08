@@ -2,7 +2,7 @@
 
 
 import numpy as np
-from cfod import assemble_chunk
+from cfod.analysis.intensity import assemble_chunk
 
 # CHIME/FRB Constants
 

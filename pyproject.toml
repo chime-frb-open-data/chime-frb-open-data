@@ -11,7 +11,7 @@ classifiers=[
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Build Tools",
     "License :: OSI Approved :: MIT License",
-    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
 ]
 
 [tool.poetry.dependencies]
@@ -31,7 +31,7 @@ pytest = "^6.2.4"
 pandas = ["pandas"]
 
 [tool.poetry.scripts]
-msgpack2fil = "cfod.routines.msgpack2fil.runner"
+msgpack2fil = "cfod.routines.msgpack2fil:runner"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]

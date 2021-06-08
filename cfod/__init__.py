@@ -1,3 +1,3 @@
-from catalog import Catalog
+from cfod.routines import catalogs
 
-catalog = Catalog()
+catalog = catalogs.Catalogs(version=1.0)
