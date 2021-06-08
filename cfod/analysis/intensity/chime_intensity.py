@@ -134,9 +134,16 @@ def unpack_datafiles(fns, downsample=True):
     frame0_nanos = []
     for fn in fns:
         print(fn)
-        intensity, weight, fpga0, fpgaN, binning, frame0_nano, nrfifreq, rfi_mask = unpack_data(
-            fn
-        )
+        (
+            intensity,
+            weight,
+            fpga0,
+            fpgaN,
+            binning,
+            frame0_nano,
+            nrfifreq,
+            rfi_mask,
+        ) = unpack_data(fn)
         intensities.append(intensity)
         weights.append(weight)
         fpga0s.append(fpga0)
@@ -231,7 +238,7 @@ def unpack_datafiles(fns, downsample=True):
 
 
 # sort files in natural order
-def atoi(text):
+def atoi(text: str):
     return int(text) if text.isdigit() else text
 
 

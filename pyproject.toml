@@ -1,0 +1,38 @@
+[tool.poetry]
+name = "cfod"
+version = "2021.6"
+description = "CHIME FRB Open Data"
+authors = ["Shiny Brar <charanjotbrar@gmail.com>"]
+license = "MIT"
+repository = "https://github.com/chime-frb-open-data/chime-frb-open-data"
+homepage = "https://chime-frb-open-data.github.io/"
+classifiers=[
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Build Tools",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+]
+
+[tool.poetry.dependencies]
+python = ">=3.7.1"
+click = "^8.0.1"
+numpy = "^1.20.3"
+healpy = "^1.14.0"
+matplotlib = "^3.4.2"
+msgpack-python = "^0.5.6"
+pandas = {version = "^1.2.4", optional = true}
+
+[tool.poetry.dev-dependencies]
+pre-commit = "^2.13.0"
+pytest = "^6.2.4"
+
+[tool.poetry.extras]
+pandas = ["pandas"]
+
+[tool.poetry.scripts]
+msgpack2fil = "cfod.routines.msgpack2fil.runner"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

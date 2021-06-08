@@ -11,9 +11,9 @@ import glob
 import os
 import numpy as np
 
-from cfod import chime_intensity
-from cfod import filterbank
-from cfod import sigproc
+from cfod.intensity import chime_intensity
+from cfod.filterbank import filterbank
+from cfod.filterbank import sigproc
 
 
 # 16K channels, 1024 samples, intensity + weights, 32-bits = 4 bytes
@@ -59,11 +59,11 @@ def filterbank_header(obsglob, dt, ftop, fbottom, nchan, source):
     fil_header["source_name"] = source
     fil_header["barycentric"] = 0
     fil_header["pulsarcentric"] = 0
-    fil_header["az_start"] = 0.  # degrees
-    fil_header["za_start"] = 0.  # degrees
-    fil_header["src_raj"] = 0.  # [hhmmss.s]
-    fil_header["src_dej"] = 0.  # [ddmmss.s]
-    fil_header["tstart"] = 0.  # MJD
+    fil_header["az_start"] = 0.0  # degrees
+    fil_header["za_start"] = 0.0  # degrees
+    fil_header["src_raj"] = 0.0  # [hhmmss.s]
+    fil_header["src_dej"] = 0.0  # [ddmmss.s]
+    fil_header["tstart"] = 0.0  # MJD
     fil_header["tsamp"] = dt  # s
     fil_header["nbits"] = 32
     fil_header["nbeams"] = 1
@@ -71,8 +71,8 @@ def filterbank_header(obsglob, dt, ftop, fbottom, nchan, source):
     # first channel `fch1` in sigproc is the highest frequency
     # `foff` is negative to signify this
     channel_bandwidth = float(np.abs(ftop - fbottom)) / nchan
-    fil_header["fch1"] = ftop - channel_bandwidth / 2.  # MHz
-    fil_header["foff"] = -1. * channel_bandwidth  # MHz
+    fil_header["fch1"] = ftop - channel_bandwidth / 2.0  # MHz
+    fil_header["foff"] = -1.0 * channel_bandwidth  # MHz
     fil_header["nchans"] = nchan
     fil_header["nifs"] = 1
 
@@ -107,9 +107,7 @@ def average(a, axis=None, weights=None):
 
     non_zero = np.where(weight_sums > 0)
     avg = np.zeros_like(weight_sums)
-    avg[non_zero] = (
-        np.sum(a * weights, axis=axis)[non_zero] / weight_sums[non_zero]
-    )
+    avg[non_zero] = np.sum(a * weights, axis=axis)[non_zero] / weight_sums[non_zero]
 
     return avg, weight_sums
 
@@ -146,9 +144,15 @@ def delay_from_dm(dm, freq_emitted):
 
 def convert_chunk(msg_chunk, fscrunch=1, subdm=None):
     # load a list of msgpack files
-    intensity, weights, fpga0s, fpgaNs, binning, rfi_masks, frame0_nanos = chime_intensity.unpack_datafiles(
-        msg_chunk
-    )
+    (
+        intensity,
+        weights,
+        fpga0s,
+        fpgaNs,
+        binning,
+        rfi_masks,
+        frame0_nanos,
+    ) = chime_intensity.unpack_datafiles(msg_chunk)
 
     dt = chime_intensity.dt * binning
 
@@ -171,18 +175,16 @@ def convert_chunk(msg_chunk, fscrunch=1, subdm=None):
 
     # update frequency channel width
     df = nchan_per_sub * chime_intensity.df
-    
+
     if nchan != nsub:
         old_frequencies = np.arange(
             chime_intensity.fbottom, chime_intensity.ftop, chime_intensity.df
         )
-        old_center_frequencies = old_frequencies + chime_intensity.df / 2.
+        old_center_frequencies = old_frequencies + chime_intensity.df / 2.0
 
         # calculate subband frequencies for subband dedispersion
-        new_frequencies = np.arange(
-            chime_intensity.fbottom, chime_intensity.ftop, df
-        )
-        new_center_frequencies = new_frequencies + df / 2.
+        new_frequencies = np.arange(chime_intensity.fbottom, chime_intensity.ftop, df)
+        new_center_frequencies = new_frequencies + df / 2.0
 
         # dedisperse channels *within* subbands to `subdm`
         if subdm is not None:
@@ -195,18 +197,14 @@ def convert_chunk(msg_chunk, fscrunch=1, subdm=None):
             # shift channels
             for ii in range(nchan):
                 # rotate channels
-                intensity[ii, :] = np.roll(
-                    intensity[ii, :], -rel_bindelays[ii], axis=0
-                )
-                weights[ii, :] = np.roll(
-                    weights[ii, :], -rel_bindelays[ii], axis=0
-                )
+                intensity[ii, :] = np.roll(intensity[ii, :], -rel_bindelays[ii], axis=0)
+                weights[ii, :] = np.roll(weights[ii, :], -rel_bindelays[ii], axis=0)
 
                 # zero out rotated values in the weights array
                 if rel_bindelays[ii] > 0:
-                    weights[ii, -rel_bindelays[ii] :] = 0.
+                    weights[ii, -rel_bindelays[ii] :] = 0.0
                 elif rel_bindelays[ii] < 0:
-                    weights[ii, : -rel_bindelays[ii]] = 0.
+                    weights[ii, : -rel_bindelays[ii]] = 0.0
 
         # subband
         intensity = np.array(
@@ -254,7 +252,7 @@ def msgpack2fil(fout, obsglob, fscrunch, subdm, source, ram):
 
     msg = glob.glob(obsglob)
     msg.sort(key=chime_intensity.natural_keys)
-    
+
     if len(msg) == 0:
         print("No files found for wildcard '{}'..".format(obsglob))
         return
@@ -269,7 +267,7 @@ def msgpack2fil(fout, obsglob, fscrunch, subdm, source, ram):
         chidx2 = -11
 
     # use 50% of availabe RAM; need 3x the msgpack size
-    chunk_size = int(0.5 * ram / MSGPACK_SIZE / 3.)
+    chunk_size = int(0.5 * ram / MSGPACK_SIZE / 3.0)
 
     limits = range(0, len(msg), chunk_size)
     limits.append(len(msg))
@@ -299,9 +297,7 @@ def msgpack2fil(fout, obsglob, fscrunch, subdm, source, ram):
                 intensity.shape[0],
                 source,
             )
-            filterbank.create_filterbank_file(
-                outfile, fil_header, intensity * weights
-            )
+            filterbank.create_filterbank_file(outfile, fil_header, intensity * weights)
 
     outfile.close()
     return
@@ -346,9 +342,9 @@ def msgpack2fil(fout, obsglob, fscrunch, subdm, source, ram):
     type=click.FLOAT,
     help="RAM available, in bytes. 8GB by default.",
 )
-def msgpack2fil_command(fout, obsglob, fscrunch, subdm, source, ram):
+def runner(fout, obsglob, fscrunch, subdm, source, ram):
     msgpack2fil(fout, obsglob, fscrunch, subdm, source, ram)
 
 
 if __name__ == "__main__":
-    msgpack2fil_command()
+    runner()
