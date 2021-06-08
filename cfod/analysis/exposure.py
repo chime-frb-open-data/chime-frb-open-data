@@ -11,10 +11,12 @@ log = logging.getLogger(__name__)
 
 def render(filepath: str) -> None:
     """
-    Creates a new HEALPix map from a file and displays it.
+    Renders CHIME/FRB Exposure Map in Mollweide projection.
 
-    Args:
-        filepath (str): Location of the CHIME/FRB exposure map.
+    Parameters
+    ----------
+    filepath : str
+        .npz filename containing the exposure data
     """
     with np.load(filepath) as data:
         exposure = data["exposure"]
