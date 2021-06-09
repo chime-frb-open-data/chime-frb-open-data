@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "cfod"
-version = "2021.6"
+version = "2021.6.1"
 description = "CHIME FRB Open Data"
 authors = ["Shiny Brar <charanjotbrar@gmail.com>"]
 license = "MIT"
