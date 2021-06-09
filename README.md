@@ -10,6 +10,9 @@
 ## Installation
 ```
 pip install --user cfod
+
+# To install with pandas support,
+pip install --user cfod[pandas]
 ```
 
 ## Documentation
