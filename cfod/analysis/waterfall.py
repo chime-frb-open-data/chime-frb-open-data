@@ -9,7 +9,7 @@ import h5py
 
 
 from datetime import datetime
-from typing import Tuple
+from typing import Optional, Tuple
 
 
 def data(filename: str) -> h5py.File:
@@ -230,7 +230,7 @@ def plot(
     snr: float,
     eventname: str,
     dm: float,
-    save: bool = False,
+    savepath: Optional[str] = None,
 ) -> None:
     """
     Plot the time series of the given CHIME/FRB Event Data.
@@ -375,8 +375,8 @@ def plot(
     data_im.set_yticks([400, 500, 600, 700, 800])
     data_im.set_ylabel("Frequency [MHz]", fontsize=9)
     data_im.set_xlabel("Time [ms]", fontsize=9)
-    if save:
-        plt.savefig("{}_wfall.png".format(eventname), dpi=300, bbox_inches="tight")
+    if savepath:
+        plt.savefig(f"{savepath}/{eventname}_wfall.png", dpi=300, bbox_inches="tight")
 
 
 def cal_plot(
@@ -386,7 +386,7 @@ def cal_plot(
     eventname: str,
     cal_source_name: str,
     cal_obs_date: str,
-    save: bool = False,
+    savepath: Optional[str] = None,
 ):
     """
     Plot the calibrated CHIME/FRB Event Data.
@@ -437,5 +437,7 @@ def cal_plot(
     )
     ax_dict["A"].set_ylabel("Frequency [MHz]")
     ax_dict["C"].set_ylabel("Flux [Jy]")
-    if save:
-        plt.savefig("{}_cal_wfall.png".format(eventname), dpi=300, bbox_inches="tight")
+    if savepath:
+        plt.savefig(
+            f"{savepath}/{eventname}_cal_wfall.png", dpi=300, bbox_inches="tight"
+        )
