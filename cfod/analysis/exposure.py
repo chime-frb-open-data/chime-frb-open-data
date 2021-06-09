@@ -35,7 +35,7 @@ def render(filename: str, save: bool = False, debug: bool = False) -> None:
     t_res = 4
 
     # Initializing a healpy map
-    hpxmap = np.zeros(npix, dtype=np.float)
+    hpxmap = np.zeros(npix, dtype=np.float64)
     hpxmap[0 : len(exposure)] += t_res * exposure / (3600.0)  # seconds to hours
     hpxmap[hpxmap == 0] = hp.UNSEEN  # masking pixels with zero exposure
 

@@ -11,7 +11,7 @@ log = logging.getLogger(__name__)
 
 
 class Catalogs:
-    def __init__(self, filename: Optional[str] = None, debug: bool = False):
+    def __init__(self, filename: str = None, debug: bool = False):
         """
         CHIME/FRB Catalog.
 
