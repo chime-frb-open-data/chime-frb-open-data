@@ -1,3 +1,4 @@
+"""CHIME/FRB Catalog."""
 import logging
 from pathlib import Path
 from typing import Optional
@@ -11,7 +12,9 @@ log = logging.getLogger(__name__)
 
 
 class Catalogs:
-    def __init__(self, filename: str = None, debug: bool = False):
+    """CHIME/FRB Catalogs."""
+
+    def __init__(self, filename: str, debug: bool = False):
         """
         CHIME/FRB Catalog.
 
@@ -42,15 +45,6 @@ class Catalogs:
         ValueError
             Raised when filename is not of valid format.
         """
-        if self.filename is None:
-            log.warning(
-                """
-                Automatic catalog retrieval is not live yet, use:
-                    from cfod.routines import catalogs
-                    catalog = catalogs.Catalogs(filename='catalog.csv')
-                """
-            )
-            return
         exists = Path(self.filename).exists()
         suffix = Path(self.filename).suffix
         log.debug(f"File Format: {suffix}")
@@ -112,8 +106,23 @@ class Catalogs:
         return parse.fits_to_dataframe(filename=self.filename)
 
     def as_fits(self) -> fits.HDUList:
+        """
+        Return a fits HDUList object for the catalog.
+
+        Returns
+        -------
+        fits.HDUList
+            CHIME/FRB Catalog
+        """
         self._filecheck(filetypes=[".fits"])
         return fits.open(self.filename)
 
     def as_ndarray(self) -> NotImplementedError:
+        """
+        Would return a np.ndarray.
+
+        Raises
+        ------
+        NotImplementedError
+        """
         raise NotImplementedError("Currently not implemented. PRs are welcomed!")
