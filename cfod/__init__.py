@@ -3,6 +3,7 @@ import os
 from pathlib import Path
 
 from cfod.routines import catalogs
+from cfod.utilities import fetch
 
 logging.basicConfig(format="%(levelname)s:%(message)s")
 log = logging.getLogger(__name__)
@@ -11,6 +12,11 @@ BASE_DIR: Path = Path(os.path.dirname(os.path.realpath(__file__)))
 DATA_DIR: Path = BASE_DIR / "data"
 CSV_CATALOG: Path = DATA_DIR / "catalog.csv"
 FITS_CATALOG: Path = DATA_DIR / "catalog.fits"
+
+if len(list(DATA_DIR.glob("*"))) < 2:
+    log.info("Fetching CHIME/FRB Catalogs")
+    fetch.csv_catalog()
+    fetch.fits_catalog()
 
 if CSV_CATALOG.exists():
     catalog = catalogs.Catalogs(filename=CSV_CATALOG.absolute().as_posix())

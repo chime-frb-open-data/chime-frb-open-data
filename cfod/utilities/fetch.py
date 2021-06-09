@@ -29,7 +29,7 @@ def csv_catalog():
     """
     Download CSV catalog.
     """
-    url = ""
+    url = "https://storage.googleapis.com/chimefrb-dev.appspot.com/catalog1/chimefrbcat1.csv"
     datapath = DATA_DIR / "catalog.csv"
     destination = datapath.absolute().as_posix()
     _download(url, destination)
@@ -39,7 +39,7 @@ def fits_catalog():
     """
     Download the fits catalog .
     """
-    url = ""
+    url = "https://storage.googleapis.com/chimefrb-dev.appspot.com/catalog1/chimefrbcat1.fits"
     datapath = DATA_DIR / "catalog.fits"
     destination = datapath.absolute().as_posix()
     _download(url, destination)
