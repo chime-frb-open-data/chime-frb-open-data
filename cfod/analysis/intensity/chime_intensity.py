@@ -174,27 +174,7 @@ def unpack_datafiles(fns, downsample=True):
 
         # Downsample
         if downsample:
-            from iautils import spectra
-
-            print("downsampling")
-            current_idx = 0
-            ds_binning = max(bin_list)
-            for i in range(len(bin_list)):
-                binning = bin_list[i]
-                intensity = intensities[i]
-                weight = weights[i]
-                print(ds_binning / binning)
-                intensity_spec = spectra.Spectra(
-                    intensity, fbottom, df, 0, binning * dt, weights=weight
-                )
-                intensity_spec.downsample(factor=ds_binning / binning)
-                intensities[i] = intensity_spec.intensity
-                weights[i] = intensity_spec.weights
-            print("downsampled")
-            output_intensities = np.hstack(intensities)[::-1]
-            output_weights = np.hstack(weights)[::-1]
-            output_rfi_masks = np.hstack(rfi_masks)[::-1]
-            output_bin = ds_binning
+            raise NotImplementedError("data downsampling is not supported.")
 
         # Upsample
         else:
