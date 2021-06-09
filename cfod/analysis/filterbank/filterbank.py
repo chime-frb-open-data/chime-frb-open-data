@@ -7,7 +7,8 @@ Ziggy Pleunis, ziggy.pleunis@physics.mcgill.ca
 """
 
 import numpy as np
-from . import sigproc
+
+from cfod.analysis.filterbank import sigproc
 
 
 def create_filterbank_file(outfile, header, spectra=None, nbits=32, verbose=False):
@@ -48,7 +49,7 @@ def create_filterbank_file(outfile, header, spectra=None, nbits=32, verbose=Fals
             # only add recognized parameters
             continue
         if verbose:
-            print(("Writing header parameter '{}'".format(parameter)))
+            print(f"Writing header parameter '{parameter}'")
         value = header[parameter]
         outfile.write(sigproc.addto_hdr(parameter, value))
 
@@ -167,8 +168,8 @@ def get_dtype(nbits):
     check_nbits(nbits)
 
     if is_float(nbits):
-        dtype = "float{}".format(nbits)
+        dtype = f"float{nbits}"
     else:
-        dtype = "uint%d".format(nbits)
+        dtype = f"uint%d"
 
     return dtype

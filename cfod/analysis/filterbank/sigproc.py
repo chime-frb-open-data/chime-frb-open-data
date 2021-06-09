@@ -8,7 +8,6 @@ Ziggy Pleunis, ziggy.pleunis@physics.mcgill.ca
 
 import struct
 
-
 header_params = {
     "HEADER_START": "flag",
     "telescope_id": "i",
@@ -66,4 +65,4 @@ def addto_hdr(parameter, value):
     elif header_params[parameter] == "flag":
         return prep_string(parameter)
     else:
-        print(("WARNING key '{}' is unknown!".format(parameter)))
+        print(f"WARNING key '{parameter}' is unknown!")

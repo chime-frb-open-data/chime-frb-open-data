@@ -1,8 +1,8 @@
-from cfod.routines.waterfaller import Waterfaller
 from typing import Optional
-from cfod.analysis import localization
-from typing import Optional
+
 import h5py as h5
+
+from cfod.analysis import localization
 
 
 class Localizer:
@@ -14,7 +14,7 @@ class Localizer:
         ----------
         filename : str
             Path to localization h5 localization data.
-        """        
+        """
         self.filename = filename
         self.datafile = h5.File(filename, "r")
 
@@ -30,11 +30,11 @@ class Localizer:
             Name of the attribute
         recurse : bool, optional
             by default False
-        
+
         Example
         -------
         >>> describle("/healpix", "comments")
-        """        
+        """
         if attribute:
             localization.describe(
                 group=self.datafile[group].attrs[attribute], recurse=recurse
@@ -45,11 +45,11 @@ class Localizer:
     def plot(self):
         """
         Plot the localization data.
-        """        
+        """
         localization.plot(data=self.datafile)
-    
+
     def coutour_plot(self):
         """
         Draw the localization coutour plot
-        """        
+        """
         localization.countours(data=self.datafile)

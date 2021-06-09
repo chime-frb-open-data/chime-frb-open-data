@@ -1,7 +1,6 @@
 import h5py as h5
-import numpy as np
-import healpy as hp
 import matplotlib.pyplot as plt
+import numpy as np
 
 
 def describe(group, recurse=False):
@@ -77,7 +76,7 @@ def plot(data):
     plt.text(2.39, -0.1, "N", ha="center", size=10)
     plt.arrow(2.4, -0.4, -0.2, 0.0, head_width=0.04, color="k")
     plt.text(2.1, -0.4, "E", va="center", ha="right", size=10)
-    plt.title("Centered @ %.3f, %.2f" % (hdr["clon"], hdr["clat"]))
+    plt.title("Centered @ {:.3f}, {:.2f}".format(hdr["clon"], hdr["clat"]))
     plt.xlabel("dx (deg)")
     plt.ylabel("dy (deg)")
 

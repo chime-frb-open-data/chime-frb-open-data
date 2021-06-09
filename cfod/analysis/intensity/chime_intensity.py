@@ -2,6 +2,7 @@
 
 
 import numpy as np
+
 from cfod.analysis.intensity import assemble_chunk
 
 # CHIME/FRB Constants
@@ -26,7 +27,7 @@ fpga_freq = np.linspace(
     fpga_freq0_mhz, fpga_freq0_mhz / 2.0, num=round(fpga_num_freq), endpoint=False
 )
 
-# X-engine (GPUs/L0)
+# X-engine
 # upchannelization
 l0_upchan_factor = 16
 l0_num_frames_sample = 8 * 3
@@ -216,7 +217,6 @@ def unpack_datafiles(fns, downsample=True):
                 output_intensities[
                     :, current_idx : current_idx + chunk_samples
                 ] = intensity
-
                 weight = weights[i].repeat(binning / output_bin, axis=1)
                 output_weights[:, current_idx : current_idx + chunk_samples] = weight
                 current_idx += chunk_samples
@@ -246,4 +246,4 @@ def natural_keys(text):
     import re
 
     """alist.sort(key=natural_keys) sorts in human order"""
-    return [atoi(c) for c in re.split("(\d+)", text)]
+    return [atoi(c) for c in re.split(r"(\d+)", text)]

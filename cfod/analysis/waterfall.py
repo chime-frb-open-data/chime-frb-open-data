@@ -1,15 +1,10 @@
-import glob
-import json
-import matplotlib.cm as cm
+from typing import Optional, Tuple
+
+import h5py
 import matplotlib.gridspec as gridspec
 import matplotlib.pyplot as plt
 import numpy as np
 import scipy.signal
-import h5py
-
-
-from datetime import datetime
-from typing import Optional, Tuple
 
 
 def data(filename: str) -> h5py.File:
@@ -257,7 +252,7 @@ def plot(
     """
     fig = plt.figure(figsize=(6, 6))
 
-    ## Set up the image grid
+    # Set up the image grid
     gs = gridspec.GridSpec(
         ncols=2,
         nrows=2,
@@ -329,7 +324,7 @@ def plot(
             lw=1,
         )
 
-    ## BEautify plot
+    # BEautify plot
     # remove some labels and ticks for neatness
     plt.setp(data_ts.get_xticklabels(), visible=False)
     data_ts.set_yticklabels([], visible=True)
@@ -342,7 +337,7 @@ def plot(
     plt.setp(data_im.get_xticklabels(), fontsize=9)
     plt.setp(data_im.get_yticklabels(), fontsize=9)
 
-    #### highlighting the width of the pulse
+    # highlighting the width of the pulse
     data_ts.axvspan(
         max(plot_time.min(), plot_time[peak] + 0.5 * dt - (0.5 * width) * dt),
         min(plot_time.max(), plot_time[peak] + 0.5 * dt + (0.5 * width) * dt),
@@ -365,7 +360,7 @@ def plot(
     data_ts.text(
         xpos,
         ypos,
-        "{}\nDM: {:.1f} pc/cc\nSNR: {:.2f}".format(eventname, dm, snr),
+        f"{eventname}\nDM: {dm:.1f} pc/cc\nSNR: {snr:.2f}",
         ha="right",
         va="top",
         fontsize=9,

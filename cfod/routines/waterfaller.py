@@ -1,6 +1,8 @@
 import logging
-import numpy as np
 from typing import Optional
+
+import numpy as np
+
 from cfod.analysis import waterfall
 
 logging.basicConfig(format="%(levelname)s:%(message)s")
@@ -89,7 +91,7 @@ class Waterfaller:
         ts, model_ts = waterfall.remove_rfi(self.spec, self.wfall, self.model_wfall)
         log.info("Determining the peaks and SNR of the pulse")
         peak, width, snr = waterfall.find_burst(ts)
-        log.info(f"Peak: {peak}, Width: {width*dt} ms, SNR: {snr}")
+        log.info(f"Peak: {peak}, Width: {width*self.dt} ms, SNR: {snr}")
         wfall = waterfall.bin_freq_channels(self.wfall, fbin_factor=16)
         log.info("Plotting Dynamic Spectrum")
         waterfall.plot(
@@ -118,7 +120,7 @@ class Waterfaller:
         Parameters
         ----------
         savepath : Optional[str], optional
-            [description], by default None
+            If provided, plot saved as {savepath}/{filename}.png, by default None
         """
         waterfall.cal_plot(
             cal_wfall=self.cal_wfall,

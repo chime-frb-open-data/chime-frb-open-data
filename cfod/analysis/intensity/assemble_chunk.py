@@ -1,12 +1,12 @@
-import msgpack
-import numpy as np
-
 """
 Python code for reading CHIME/FRB msgpack data.
 """
 
+import msgpack
+import numpy as np
 
-class AssembledChunk(object):
+
+class AssembledChunk:
     def __init__(self, msgpacked_chunk, debug=False):
         c = msgpacked_chunk
         # print('header', c[0])

@@ -1,9 +1,10 @@
 import logging
-from typing import Optional
 from pathlib import Path
+from typing import Optional
+
 from astropy.io import fits
+
 from cfod.utilities import parse
-import logging
 
 logging.basicConfig(format="%(levelname)s:%(message)s")
 log = logging.getLogger(__name__)

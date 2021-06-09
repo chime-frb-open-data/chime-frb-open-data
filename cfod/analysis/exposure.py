@@ -1,10 +1,10 @@
 """ Creates a HEALPix map from CHIME/FRB Exposure Map."""
-import numpy as np
-import matplotlib.pyplot as plt
-import healpy as hp
-from astropy.coordinates import SkyCoord
-import astropy.units as u
 import logging
+
+import astropy.units as u
+import healpy as hp
+import numpy as np
+from astropy.coordinates import SkyCoord
 
 log = logging.getLogger(__name__)
 
@@ -48,7 +48,7 @@ def render(filename: str, save: bool = False, debug: bool = False) -> None:
         % hpxmap[hp.ang2pix(nside, coord.ra.deg, coord.dec.deg, lonlat=True)]
     )
 
-    ### Obtaining a lower resolution map ###
+    # Obtaining a lower resolution map ###
     nside_out = 1024
     log.info(
         "Resolution of new map : %.2f arcmin" % (hp.nside2resol(nside_out, arcmin=True))

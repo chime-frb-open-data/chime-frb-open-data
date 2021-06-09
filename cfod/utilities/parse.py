@@ -1,6 +1,6 @@
-from logging import getLogger
 from csv import DictReader
 from json import dumps
+from logging import getLogger
 
 log = getLogger(__name__)
 

@@ -12,8 +12,18 @@ pip install cfod
 To read a single data file from the data release,
 ```python
 from cfod import chime_intensity as ci
-fn = `astro_5941664_20180406203904337770_beam0147_00245439_02.msgpack`
-intensity, weights, fpga0, fpgaN, binning, frame0_nano, nrfifreq, rfi_mask = ci.unpack_data(fn)
+
+fn = ` astro_5941664_20180406203904337770_beam0147_00245439_02.msgpack `
+(
+    intensity,
+    weights,
+    fpga0,
+    fpgaN,
+    binning,
+    frame0_nano,
+    nrfifreq,
+    rfi_mask,
+) = ci.unpack_data(fn)
 ```
 where:
   - `intensity` is a 2D Intensity array.
@@ -28,8 +38,17 @@ where:
 To read multiple data files at once, you can use the following command,
 ```python
 from cfod import chime_intensity as ci
-fns = ['file1', 'file2', 'file3']
-intensity, weights, fpga0s, fpgaNs, binning, rfi_mask, frame0_nanos = ci.unpack_datafiles(fns)
+
+fns = ["file1", "file2", "file3"]
+(
+    intensity,
+    weights,
+    fpga0s,
+    fpgaNs,
+    binning,
+    rfi_mask,
+    frame0_nanos,
+) = ci.unpack_datafiles(fns)
 ```
 
 To convert `.msgpack` files into filterbank `.fil` format you can run `msgpack2fil` from the command line (scripts are installed through `pip`). You need to provide a pathname wildcard in quotation marks. To see all command line options run help:

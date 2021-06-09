@@ -6,15 +6,14 @@ Ziggy Pleunis, ziggy.pleunis@physics.mcgill.ca
 
 """
 
-import click
 import glob
 import os
+
+import click
 import numpy as np
 
-from cfod.analysis.intensity import chime_intensity
 from cfod.analysis.filterbank import filterbank
-from cfod.analysis.filterbank import sigproc
-
+from cfod.analysis.intensity import chime_intensity
 
 # 16K channels, 1024 samples, intensity + weights, 32-bits = 4 bytes
 MSGPACK_SIZE = 16e3 * 1024 * 2 * 4
@@ -254,7 +253,7 @@ def msgpack2fil(fout, obsglob, fscrunch, subdm, source, ram):
     msg.sort(key=chime_intensity.natural_keys)
 
     if len(msg) == 0:
-        print("No files found for wildcard '{}'..".format(obsglob))
+        print(f"No files found for wildcard '{obsglob}'..")
         return
 
     # indices of chunk number is different for `.msg` and `.msgpack` files
@@ -284,10 +283,10 @@ def msgpack2fil(fout, obsglob, fscrunch, subdm, source, ram):
         )
 
         if i > 0:
-            print("Appending to filterbank file '{}'..".format(fout))
+            print(f"Appending to filterbank file '{fout}'..")
             filterbank.append_spectra(outfile, intensity * weights)
         else:
-            print("Creating filterbank file '{}'..".format(fout))
+            print(f"Creating filterbank file '{fout}'..")
             outfile = open(fout, "wb")
             fil_header = filterbank_header(
                 obsglob,
