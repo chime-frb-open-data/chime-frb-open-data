@@ -9,17 +9,22 @@ import logging
 log = logging.getLogger(__name__)
 
 
-def render(filepath: str) -> None:
+def render(filename: str, save: bool = False, debug: bool = False) -> None:
     """
     Renders CHIME/FRB Exposure Map in Mollweide projection.
 
     Parameters
     ----------
-    filepath : str
-        .npz filename containing the exposure data
+    filename : str
+        Filename of the exposure map.
+    debug : bool, optional
+        Enables debug logging, by default False
     """
-    with np.load(filepath) as data:
+    if debug:
+        log.setLevel(logging.DEBUG)
+    with np.load(filename) as data:
         exposure = data["exposure"]
+        log.debug(f"{filename} opened.")
 
     # Setting parameters for map resolution
     # Spatial
