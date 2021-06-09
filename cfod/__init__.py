@@ -4,7 +4,6 @@ from pathlib import Path
 
 from cfod.routines import catalogs
 
-
 logging.basicConfig(format="%(levelname)s:%(message)s")
 log = logging.getLogger(__name__)
 
@@ -15,6 +14,7 @@ FITS_CATALOG: Path = DATA_DIR / "catalog.fits"
 
 if len(list(DATA_DIR.glob("*"))) < 2:
     from cfod.utilities import fetch
+
     log.info("Fetching CHIME/FRB Catalogs")
     fetch.csv_catalog()
     fetch.fits_catalog()
