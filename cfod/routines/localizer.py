@@ -1,8 +1,12 @@
+import logging
 from typing import Optional
 
 import h5py as h5
 
 from cfod.analysis import localization
+
+logging.basicConfig(format="%(levelname)s:%(message)s")
+log = logging.getLogger(__name__)
 
 
 class Localizer:
