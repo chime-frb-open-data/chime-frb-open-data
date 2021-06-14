@@ -12,7 +12,7 @@ DATA_DIR: Path = BASE_DIR / "data"
 CSV_CATALOG: Path = DATA_DIR / "catalog.csv"
 FITS_CATALOG: Path = DATA_DIR / "catalog.fits"
 
-if os.environ["DEBUG"]:
+if os.environ.get("DEBUG", False):
     log.setLevel(logging.DEBUG)
     log.debug("Logging Level: Debug")
 
