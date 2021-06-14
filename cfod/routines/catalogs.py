@@ -47,7 +47,7 @@ class Catalogs:
         """
         exists = Path(self.filename).exists()
         suffix = Path(self.filename).suffix
-        log.debug(f"File Format: {suffix}")
+        log.debug(f"Loading Catalog: {self.filename}")
         if not exists:
             raise FileNotFoundError(f"{self.filename} does not exist.")
         if suffix not in filetypes:

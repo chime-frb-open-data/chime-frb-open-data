@@ -18,11 +18,11 @@ def _download(url: str, destination: str) -> None:
     destination : str
         Save path for the downloaded file.
     """
-    log.info("Download: Started")
-    log.info(f"URL: {url}")
-    log.info(f"Destination: {destination}")
+    log.debug("Download   : Started")
+    log.debug(f"URL        : {url}")
+    log.debug(f"Destination: {destination}")
     urllib.request.urlretrieve(url, destination)
-    log.info("Download: Complete")
+    log.debug("Download   : Complete")
 
 
 def csv_catalog():

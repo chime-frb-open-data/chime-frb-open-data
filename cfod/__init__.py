@@ -12,10 +12,14 @@ DATA_DIR: Path = BASE_DIR / "data"
 CSV_CATALOG: Path = DATA_DIR / "catalog.csv"
 FITS_CATALOG: Path = DATA_DIR / "catalog.fits"
 
-if len(list(DATA_DIR.glob("*"))) < 2:
+if os.environ["DEBUG"]:
+    log.setLevel(logging.DEBUG)
+    log.debug("Logging Level: Debug")
+
+if not len(list(DATA_DIR.glob("catalog.*"))):
     from cfod.utilities import fetch
 
-    log.info("Fetching CHIME/FRB Catalogs")
+    log.debug("Fetching CHIME/FRB Catalogs")
     fetch.csv_catalog()
     fetch.fits_catalog()
 
@@ -24,5 +28,5 @@ if CSV_CATALOG.exists():
 elif FITS_CATALOG.exists():
     catalog = catalogs.Catalogs(filename=FITS_CATALOG.absolute().as_posix())
 else:
-    log.error("Unable to locate CHIME/FRB Catalog.")
-    raise ImportError("Unable to locate CHIME/FRB Catalog.")
+    log.warning("Unable to locate CHIME/FRB Catalog.")
+    # raise ImportError("Unable to locate CHIME/FRB Catalog.")
