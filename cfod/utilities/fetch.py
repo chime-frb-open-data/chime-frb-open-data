@@ -18,11 +18,15 @@ def _download(url: str, destination: str) -> None:
     destination : str
         Save path for the downloaded file.
     """
-    log.debug("Download   : Started")
-    log.debug(f"URL        : {url}")
-    log.debug(f"Destination: {destination}")
-    urllib.request.urlretrieve(url, destination)
-    log.debug("Download   : Complete")
+
+    try:
+        log.debug("Downloading...")
+        log.debug(f"URL  : {url}")
+        log.debug(f"File : {destination}")
+        urllib.request.urlretrieve(url, destination)
+    except Exception as error:
+        log.warning("Unable to download CHIME/FRB Catalog.")
+        raise error
 
 
 def csv_catalog():

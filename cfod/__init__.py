@@ -28,5 +28,4 @@ if CSV_CATALOG.exists():
 elif FITS_CATALOG.exists():
     catalog = catalogs.Catalogs(filename=FITS_CATALOG.absolute().as_posix())
 else:
-    log.warning("Unable to locate CHIME/FRB Catalog.")
-    # raise ImportError("Unable to locate CHIME/FRB Catalog.")
+    log.error("Unable to locate CHIME/FRB Catalog.")
