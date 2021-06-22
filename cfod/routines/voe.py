@@ -9,7 +9,7 @@ log = logging.getLogger(__name__)
 
 
 class VOE:
-    """CHIME/FRB Virtual Observatory Event Object."""
+    """CHIME/FRB Virtual Observatory Event Handler."""
 
     def __init__(
         self,
@@ -21,24 +21,24 @@ class VOE:
         **kwargs
     ) -> None:
         """
-        CHIME/FRB Virtual Observatory Event.
+        CHIME/FRB Virtual Observatory Event Handler.
 
         Parameters
         ----------
         email : str
-            Registered email with CHIME/FRB VOE Service.
+            Registered email with CHIME/FRB VOEvent Service.
         actor : Actor
             Action to take, upon recieveing an event.
         format : str, optional
-            Format of the VOE Event, by default "dict".
+            Format of the VOEvent, by default "dict".
             Valid Options:
         testing : bool, optional
-            Enable test mode, by default False
+            Enable test mode, by default False.
         debug : bool, optional
-            Enable depper logging, by default False
+            Enable deeper logging, by default False.
         """
         self.email = email
-        self.actor = action(**kwargs)
+        self.actor = Actor(**kwargs)
         self.format = format
         self.testing = testing
         self.debug = debug
