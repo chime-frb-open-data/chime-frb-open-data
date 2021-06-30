@@ -1,7 +1,12 @@
 """Base Actor Class."""
-from typing import NoReturn, Union
+
+import comet
+from comet.icomet import IHandler
+from twisted.plugin import IPlugin
+from zope.interface import implementer
 
 
+@implementer(IPlugin, IHandler)
 class Actor:
     """Base Actor."""
 
@@ -9,13 +14,16 @@ class Actor:
         """Actor Initialization."""
         self.args = kwargs
 
-    def action(self, event: Union[str, dict]) -> NoReturn:
+    def action(
+        self,
+        event: comet.utility.xml.xml_document,
+    ) -> None:
         """Work to be performed.
 
         Parameters
         ----------
-        event : Union[str, dict]
-            CHIME/FRB VOE Event.
+        event : comet.utility.xml.xml_document
+            CHIME/FRB VOEvent XML document.
 
         Returns
         -------
@@ -25,4 +33,27 @@ class Actor:
         ------
         NotImplementedError
         """
-        raise NotImplementedError("No action Implemented.")
+        # TODO: print event
+        raise NotImplementedError("No action implemented.")
+
+    def __call__(self, event) -> None:
+        """
+        Call this event handler when a VOEvent is received by the Comet broker.
+
+        Parameters
+        ----------
+        event : comet.utility.xml.xml_document
+            CHIME/FRB VOEvent XML document.
+
+        Returns
+        -------
+        None
+
+        Notes
+        -----
+        This script must be installed in comet/plugins.
+        Use `--actor` as a command line option when running
+        the comet via
+        $ twistd -n comet --actor
+        """
+        self.action(event)
