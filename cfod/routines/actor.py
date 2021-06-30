@@ -2,6 +2,7 @@
 
 import comet
 from comet.icomet import IHandler
+from comet.utility.xml import xml_document
 from twisted.plugin import IPlugin
 from zope.interface import implementer
 
@@ -16,13 +17,13 @@ class Actor:
 
     def action(
         self,
-        event: comet.utility.xml.xml_document,
+        event: xml_document,
     ) -> None:
         """Work to be performed.
 
         Parameters
         ----------
-        event : comet.utility.xml.xml_document
+        event : xml_document
             CHIME/FRB VOEvent XML document.
 
         Returns
