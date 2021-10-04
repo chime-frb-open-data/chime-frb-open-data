@@ -1,8 +1,8 @@
-<VOEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ivoa.net/xml/VOEvent/v2.0 http://www.ivoa.net/xml/VOEvent/VOEvent-v2.0.xsd" version="2.0" role="utility" ivorn="ivo://ca.chimenet.frb/OBS-RETRACTION-#2021-09-07-09:49:11.821703UTC+0000_65550c2c8d65">
+<VOEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.ivoa.net/xml/VOEvent/v2.0 http://www.ivoa.net/xml/VOEvent/VOEvent-v2.0.xsd" version="2.0" role="utility" ivorn="ivo://ca.chimenet.frb/OBS-RETRACTION-#1995-01-01-00:00:00.000000UTC+0000_65550c2c8d65">
   <Who>
     <Description>CHIME/FRB VOEvent Service</Description>
     <AuthorIVORN>ivo://ca.chimenet.frb/contact</AuthorIVORN>
-    <Date>2021-09-07T09:49:11+00:00</Date>
+    <Date>1995-01-01T00:00:00+00:00</Date>
     <Author>
       <contactEmail>andrew.zwaniga@mail.mcgill.ca</contactEmail>
       <contactName>Andrew Zwaniga</contactName>
@@ -18,7 +18,7 @@
         <AstroCoords coord_system_id="UTC-FK5-TOPO">
           <Time unit="s">
             <TimeInstant>
-              <ISOTime>2021-09-07T09:49:11.821703</ISOTime>
+              <ISOTime>1995-01-01T00:00:00.000000</ISOTime>
             </TimeInstant>
           </Time>
           <Position2D unit="deg">
@@ -48,7 +48,7 @@
     <Concept>Importance is fixed at 1 for the retraction-type; Probability is not reported for retraction-type</Concept>
   </Why>
   <Citations>
-    <EventIVORN cite="retraction">ivo://ca.chimenet.frb/FRB-DETECTION-#2021-09-07-09:48:59.922483UTC+0000_daa68ff4aeaf</EventIVORN>
+    <EventIVORN cite="retraction">ivo://ca.chimenet.frb/FRB-DETECTION-#1995-01-01-00:00:00.000000UTC+0000_daa68ff4aeaf</EventIVORN>
   </Citations>
   <original_prefix>voe</original_prefix>
 </VOEvent>

@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<voe:VOEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:voe="http://www.ivoa.net/xml/VOEvent/v2.0" xsi:schemaLocation="http://www.ivoa.net/xml/VOEvent/v2.0 http://www.ivoa.net/xml/VOEvent/VOEvent-v2.0.xsd" version="2.0" role="observation" ivorn="ivo://ca.chimenet.frb/FRB-SUBSEQUENT-#2021-08-22-23:16:06.571791UTC+0000_f4a33adeaa19">
+<voe:VOEvent xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:voe="http://www.ivoa.net/xml/VOEvent/v2.0" xsi:schemaLocation="http://www.ivoa.net/xml/VOEvent/v2.0 http://www.ivoa.net/xml/VOEvent/VOEvent-v2.0.xsd" version="2.0" role="observation" ivorn="ivo://ca.chimenet.frb/FRB-SUBSEQUENT-#1995-01-01-00:00:00.000000UTC+0000_f4a33adeaa19">
   <Who>
     <Description>CHIME/FRB VOEvent Service</Description>
     <AuthorIVORN>ivo://ca.chimenet.frb/contact</AuthorIVORN>
-    <Date>2021-08-22T23:16:06+00:00</Date>
+    <Date>1995-01-01T00:00:00+00:00</Date>
     <Author>
       <contactEmail>andrew.zwaniga@mail.mcgill.ca</contactEmail>
       <contactName>Andrew Zwaniga</contactName>
@@ -53,7 +53,7 @@
       <Param ucd="stat.error;phys.dispMeasure" unit="pc/cm^3" value="1.6174999475479122" name="dm_error">
         <Description>Error in dispersion measure from real-time pipeline</Description>
       </Param>
-      <Param ucd="" unit="" value="2021-08-22 23:16:06.571791+00:00" name="timestamp_utc">
+      <Param ucd="" unit="" value="1995-01-01 00:00:00.000000+00:00" name="timestamp_utc">
         <Description>Topocentric arrival time at 400 MHz</Description>
       </Param>
       <Param ucd="" unit="" value="0.031457278877496005" name="timestamp_utc_error">
@@ -76,7 +76,7 @@
       <Param ucd="" unit="pc/cm^3" value="20.51289939880371" name="dm_gal_ymw_2016_max">
         <Description>Max Milky Way DM contribution (YMW 2016 model) from real-time pipeline</Description>
       </Param>
-      <Param ucd="" unit="" value="2021-08-22 23:15:57.972545+00:00" name="timestamp_utc_inf_freq">
+      <Param ucd="" unit="" value="1995-01-01 00:00:00.000000+00:00" name="timestamp_utc_inf_freq">
         <Description>Topocentric arrival time at infinite frequency</Description>
       </Param>
       <Param ucd="" unit="" value="0.05243245759641792" name="timestamp_utc_inf_freq_error">
@@ -98,7 +98,7 @@
         <AstroCoords coord_system_id="UTC-FK5-TOPO">
           <Time unit="s">
             <TimeInstant>
-              <ISOTime>2021-08-22T23:16:06.571791</ISOTime>
+              <ISOTime>1995-01-01T00:00:00.000000</ISOTime>
             </TimeInstant>
           </Time>
           <Position2D unit="deg">
