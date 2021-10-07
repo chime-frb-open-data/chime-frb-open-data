@@ -18,7 +18,17 @@ pip install --user cfod[pandas]
 ## Documentation
 Check out the user documentation, [here](https://chime-frb-open-data.github.io/)
 
-Looking for resources related to the public **CHIME/FRB VOEvent Service**? They are located in `cfod/utilities`. 
+### Public VOEvents 
+
+Are you a new or existing subscriber to the **CHIME/FRB VOEvent Service**? All relevant resources are located in `cfod/utilities`, including:
+- Answers to frequently asked questions (FAQs).
+- A set of introductory and quick-start slides for new subscribers.
+- Sample CHIME/FRB VOEvent XML documents.
+- A Jupyter notebook tutorial for working with CHIME/FRB VOEvent XML documents.
+
+Or, perhaps you are seeking to [subscribe](https://chime-frb.ca/voevents) to the Service. 
+
+**CHIME/FRB VOEvent Service**? They are located in `cfod/utilities`. 
 
 ## Developer
 ```
