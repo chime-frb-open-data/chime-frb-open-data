@@ -54,6 +54,6 @@ class Localizer:
 
     def contour_plot(self):
         """
-        Draw the localization coutour plot
+        Draw the localization contour plot
         """
         localization.countours(data=self.datafile)
