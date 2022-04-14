@@ -52,7 +52,7 @@ class Localizer:
         """
         localization.plot(data=self.datafile)
 
-    def coutour_plot(self):
+    def countour_plot(self):
         """
         Draw the localization coutour plot
         """

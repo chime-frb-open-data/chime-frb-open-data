@@ -27,7 +27,7 @@ class Waterfaller:
         """
         Unpack the attributes of the datafile.
         """
-        self.data = self.datafile["frb"]
+        self.datafile = self.datafile["frb"]
         self.eventname = self.datafile.attrs["tns_name"].decode()
         self.wfall = self.datafile["wfall"][:]
         self.model_wfall = self.datafile["model_wfall"][:]
