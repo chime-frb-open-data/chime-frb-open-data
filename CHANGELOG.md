@@ -1,4 +1,10 @@
-## Unreleased
+## v2021.7.0 (2022-05-04)
+
+### Feat
+
+- **commitizen**: added commitizen config to pyproject.toml
+- **changelog**: added changelog to the project
+- **pre-commit**: updated pre-commit config and added black to dev deps
 
 ## v2021.6.2 (2021-06-09)
 
