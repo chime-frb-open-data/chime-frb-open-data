@@ -43,6 +43,13 @@ pandas = ["pandas"]
 [tool.poetry.scripts]
 msgpack2fil = "cfod.routines.msgpack2fil:runner"
 
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "2021.6.2"
+tag_format = "v$version"
+version_files = ["pyproject.toml:version"]
+
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
