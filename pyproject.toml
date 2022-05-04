@@ -46,7 +46,7 @@ msgpack2fil = "cfod.routines.msgpack2fil:runner"
 
 [tool.commitizen]
 name = "cz_conventional_commits"
-version = "2021.7.0"
+version = "2021.8.0"
 tag_format = "$version"
 version_files = ["pyproject.toml:version"]
 

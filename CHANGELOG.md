@@ -1,3 +1,9 @@
+## 2021.8.0 (2022-05-04)
+
+### Fix
+
+- **version**: changed version definition from vXX.xx.xx to XX.xx.xx
+
 ## v2021.7.0 (2022-05-04)
 
 ### Feat
